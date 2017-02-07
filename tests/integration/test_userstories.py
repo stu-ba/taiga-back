@@ -28,6 +28,8 @@ from unittest import mock
 from django.core.urlresolvers import reverse
 
 from taiga.base.utils import json
+from taiga.permissions.choices import MEMBERS_PERMISSIONS, ANON_PERMISSIONS
+from taiga.projects.occ import OCCResourceMixin
 from taiga.projects.userstories import services, models
 
 from .. import factories as f
@@ -47,9 +49,10 @@ def test_get_userstories_from_bulk():
 
 def test_create_userstories_in_bulk():
     data = "User Story #1\nUser Story #2\n"
+    project = f.ProjectFactory.create()
 
     with mock.patch("taiga.projects.userstories.services.db") as db:
-        userstories = services.create_userstories_in_bulk(data)
+        userstories = services.create_userstories_in_bulk(data, project=project)
         db.save_in_bulk.assert_called_once_with(userstories, None, None)
 
 
@@ -317,7 +320,10 @@ def test_api_update_milestone_in_bulk(client):
     f.MembershipFactory.create(project=project, user=project.owner, is_admin=True)
     milestone = f.MilestoneFactory.create(project=project)
     us1 = f.create_userstory(project=project)
+    t1 = f.create_task(user_story=us1, project=project)
+    t2 = f.create_task(user_story=us1, project=project)
     us2 = f.create_userstory(project=project)
+    t3 = f.create_task(user_story=us2, project=project)
     us3 = f.create_userstory(project=project, milestone=milestone, sprint_order=1)
     us4 = f.create_userstory(project=project, milestone=milestone, sprint_order=2)
 
@@ -335,10 +341,14 @@ def test_api_update_milestone_in_bulk(client):
     response = client.json.post(url, json.dumps(data))
     assert response.status_code == 204, response.data
     assert project.milestones.get(id=milestone.id).user_stories.count() == 4
-    assert list(project.milestones.get(id=milestone.id).\
-        user_stories.\
-        order_by("sprint_order").\
-        values_list("id", "sprint_order")) == [(us3.id, 1), (us1.id, 2), (us2.id,3), (us4.id,4)]
+
+    uss_list = list(project.milestones.get(id=milestone.id).user_stories.order_by("sprint_order")
+                                                                        .values_list("id", "sprint_order"))
+    assert uss_list == [(us3.id, 1), (us1.id, 2), (us2.id,3), (us4.id,4)]
+
+    tasks_list = list(project.milestones.get(id=milestone.id).tasks.order_by("id")
+                                                                   .values_list("id", flat=True))
+    assert tasks_list == [t1.id, t2.id, t3.id]
 
 
 def test_api_update_milestone_in_bulk_invalid_milestone(client):
@@ -982,3 +992,118 @@ def test_get_user_stories_including_attachments(client):
     response = client.get(url)
     assert response.status_code == 200
     assert len(response.data[0].get("attachments")) == 1
+
+
+def test_api_validator_assigned_to_when_update_userstories(client):
+    project = f.create_project(anon_permissions=list(map(lambda x: x[0], ANON_PERMISSIONS)),
+                               public_permissions=list(map(lambda x: x[0], ANON_PERMISSIONS)))
+    project_member_owner = f.MembershipFactory.create(project=project,
+                                                      user=project.owner,
+                                                      is_admin=True,
+                                                      role__project=project,
+                                                      role__permissions=list(map(lambda x: x[0], MEMBERS_PERMISSIONS)))
+    project_member = f.MembershipFactory.create(project=project,
+                                                is_admin=True,
+                                                role__project=project,
+                                                role__permissions=list(map(lambda x: x[0], MEMBERS_PERMISSIONS)))
+    project_no_member = f.MembershipFactory.create(is_admin=True)
+    userstory = f.create_userstory(project=project, owner=project.owner, status=project.us_statuses.all()[0])
+
+    url = reverse('userstories-detail', kwargs={"pk": userstory.pk})
+
+    # assign
+    data = {
+        "assigned_to": project_member.user.id,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.patch(url, json.dumps(data))
+        assert response.status_code == 200, response.data
+        assert "assigned_to" in response.data
+        assert response.data["assigned_to"] == project_member.user.id
+
+    # unassign
+    data = {
+        "assigned_to": None,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.patch(url, json.dumps(data))
+        assert response.status_code == 200, response.data
+        assert "assigned_to" in response.data
+        assert response.data["assigned_to"] == None
+
+    # assign to invalid user
+    data = {
+        "assigned_to": project_no_member.user.id,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.patch(url, json.dumps(data))
+        assert response.status_code == 400, response.data
+
+
+def test_api_validator_assigned_to_when_create_userstories(client):
+    project = f.create_project(anon_permissions=list(map(lambda x: x[0], ANON_PERMISSIONS)),
+                               public_permissions=list(map(lambda x: x[0], ANON_PERMISSIONS)))
+    project_member_owner = f.MembershipFactory.create(project=project,
+                                                      user=project.owner,
+                                                      is_admin=True,
+                                                      role__project=project,
+                                                      role__permissions=list(map(lambda x: x[0], MEMBERS_PERMISSIONS)))
+    project_member = f.MembershipFactory.create(project=project,
+                                                is_admin=True,
+                                                role__project=project,
+                                                role__permissions=list(map(lambda x: x[0], MEMBERS_PERMISSIONS)))
+    project_no_member = f.MembershipFactory.create(is_admin=True)
+
+    url = reverse('userstories-list')
+
+    # assign
+    data = {
+        "subject": "test",
+        "project": project.id,
+        "assigned_to": project_member.user.id,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.post(url, json.dumps(data))
+        assert response.status_code == 201, response.data
+        assert "assigned_to" in response.data
+        assert response.data["assigned_to"] == project_member.user.id
+
+    # unassign
+    data = {
+        "subject": "test",
+        "project": project.id,
+        "assigned_to": None,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.post(url, json.dumps(data))
+        assert response.status_code == 201, response.data
+        assert "assigned_to" in response.data
+        assert response.data["assigned_to"] == None
+
+    # assign to invalid user
+    data = {
+        "subject": "test",
+        "project": project.id,
+        "assigned_to": project_no_member.user.id,
+    }
+
+    with mock.patch.object(OCCResourceMixin, "_validate_and_update_version"):
+        client.login(project.owner)
+
+        response = client.json.post(url, json.dumps(data))
+        assert response.status_code == 400, response.data

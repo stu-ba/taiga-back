@@ -64,7 +64,6 @@ class TaskViewSet(OCCResourceMixin, VotedResourceMixin, HistoryResourceMixin, Wa
                      "milestone",
                      "project",
                      "project__slug",
-                     "assigned_to",
                      "status__is_closed"]
 
     def get_serializer_class(self, *args, **kwargs):
@@ -257,7 +256,6 @@ class TaskViewSet(OCCResourceMixin, VotedResourceMixin, HistoryResourceMixin, Wa
         tasks_serialized = self.get_serializer_class()(tasks, many=True)
 
         return response.Ok(tasks_serialized.data)
-
 
     def _bulk_update_order(self, order_field, request, **kwargs):
         validator = validators.UpdateTasksOrderBulkValidator(data=request.DATA)

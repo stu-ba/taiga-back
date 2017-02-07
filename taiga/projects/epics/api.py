@@ -36,6 +36,8 @@ from taiga.projects.occ import OCCResourceMixin
 from taiga.projects.tagging.api import TaggedResourceMixin
 from taiga.projects.votes.mixins.viewsets import VotedResourceMixin, VotersViewSetMixin
 
+from django_pglocks import advisory_lock
+
 from . import models
 from . import permissions
 from . import serializers
@@ -261,6 +263,11 @@ class EpicRelatedUserStoryViewSet(NestedViewSetMixin, HistoryResourceMixin,
 
         super().post_save(obj, created)
 
+    def create(self, request, *args, **kwargs):
+        epic_id = request.DATA.get("epic", 0)
+        with advisory_lock("epic-related-user-stories-creation-{}".format(epic_id)):
+            return super().create(request, *args, **kwargs)
+
     @list_route(methods=["POST"])
     def bulk_create(self, request, **kwargs):
         validator = validators.CreateRelatedUserStoriesBulkValidator(data=request.DATA)
@@ -285,6 +292,7 @@ class EpicRelatedUserStoryViewSet(NestedViewSetMixin, HistoryResourceMixin,
 
         for related_userstory in related_userstories:
             self.persist_history_snapshot(obj=related_userstory)
+            self.persist_history_snapshot(obj=related_userstory.user_story)
 
         related_uss_serialized = self.get_serializer_class()(epic.relateduserstory_set.all(), many=True)
         return response.Ok(related_uss_serialized.data)

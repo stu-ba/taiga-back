@@ -24,36 +24,35 @@ def tag_exist_for_project_elements(project, tag):
 
 
 def create_tags(project, new_tags_colors):
-    project.tags_colors += [[k, v] for k, v in new_tags_colors.items()]
+    project.tags_colors += [[k.lower(), v] for k, v in new_tags_colors.items()]
     project.save(update_fields=["tags_colors"])
 
 
 def create_tag(project, tag, color):
-    project.tags_colors.append([tag, color])
+    project.tags_colors.append([tag.lower(), color])
     project.save(update_fields=["tags_colors"])
 
 
 def edit_tag(project, from_tag, to_tag, color):
     sql = """
         UPDATE userstories_userstory
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE tasks_task
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE issues_issue
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE epics_epic
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
     """
-    sql = sql.format(project_id=project.id, from_tag=from_tag, to_tag=to_tag)
     cursor = connection.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, params={"from_tag": from_tag, "to_tag": to_tag, "project_id": project.id})
 
     tags_colors = dict(project.tags_colors)
     tags_colors.pop(from_tag)
@@ -71,24 +70,23 @@ def rename_tag(project, from_tag, to_tag, **kwargs):
         color = dict(project.tags_colors)[from_tag]
     sql = """
         UPDATE userstories_userstory
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE tasks_task
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE issues_issue
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
 
         UPDATE epics_epic
-           SET tags = array_distinct(array_replace(tags, '{from_tag}', '{to_tag}'))
-         WHERE project_id = {project_id};
+           SET tags = array_distinct(array_replace(tags, %(from_tag)s, %(to_tag)s))
+         WHERE project_id = %(project_id)s;
     """
-    sql = sql.format(project_id=project.id, from_tag=from_tag, to_tag=to_tag, color=color)
     cursor = connection.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, params={"from_tag": from_tag, "to_tag": to_tag, "project_id": project.id})
 
     tags_colors = dict(project.tags_colors)
     tags_colors.pop(from_tag)
@@ -100,24 +98,23 @@ def rename_tag(project, from_tag, to_tag, **kwargs):
 def delete_tag(project, tag):
     sql = """
         UPDATE userstories_userstory
-           SET tags = array_remove(tags, '{tag}')
-         WHERE project_id = {project_id};
+           SET tags = array_remove(tags, %(tag)s)
+         WHERE project_id = %(project_id)s;
 
         UPDATE tasks_task
-           SET tags = array_remove(tags, '{tag}')
-         WHERE project_id = {project_id};
+           SET tags = array_remove(tags, %(tag)s)
+         WHERE project_id = %(project_id)s;
 
         UPDATE issues_issue
-           SET tags = array_remove(tags, '{tag}')
-         WHERE project_id = {project_id};
+           SET tags = array_remove(tags, %(tag)s)
+         WHERE project_id = %(project_id)s;
 
         UPDATE epics_epic
-           SET tags = array_remove(tags, '{tag}')
-         WHERE project_id = {project_id};
+           SET tags = array_remove(tags, %(tag)s)
+         WHERE project_id = %(project_id)s;
     """
-    sql = sql.format(project_id=project.id, tag=tag)
     cursor = connection.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, params={"tag": tag, "project_id": project.id})
 
     tags_colors = dict(project.tags_colors)
     del tags_colors[tag]

@@ -16,19 +16,24 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-def first(iterable):
-    if len(iterable) == 0:
-        return None
-    return iterable[0]
+from taiga.base import throttling
 
 
-def next(data:list):
-    return data[1:]
+class MembershipsRateThrottle(throttling.UserRateThrottle):
+    scope = "create-memberships"
+    throttled_methods = ["POST", "PUT"]
 
+    def exceeded_throttling_restriction(self, request, view):
+        self.created_memberships = 0
+        if view.action in ["create", "resend_invitation"]:
+            self.created_memberships = 1
+        elif view.action == "bulk_create":
+            self.created_memberships = len(request.DATA.get("bulk_memberships", []))
+        return len(self.history) + self.created_memberships > self.num_requests
 
-def arithmetic_progression(step=1, start=1):
-    i = start
-    while True:
-        yield i
-        i += step
+    def throttle_success(self, request, view):
+        for i in range(self.created_memberships):
+            self.history.insert(0, self.now)
+
+        self.cache.set(self.key, self.history, self.duration)
+        return True

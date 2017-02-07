@@ -60,6 +60,7 @@ from . import serializers
 from . import validators
 from . import services
 from . import utils as project_utils
+from . import throttling
 
 ######################################################
 # Project
@@ -105,7 +106,15 @@ class ProjectViewSet(LikedResourceMixin, HistoryResourceMixin,
     def get_queryset(self):
         qs = super().get_queryset()
         qs = qs.select_related("owner")
-        qs = project_utils.attach_extra_info(qs, user=self.request.user)
+        if self.request.QUERY_PARAMS.get('discover_mode', False):
+            qs = project_utils.attach_members(qs)
+            qs = project_utils.attach_notify_policies(qs)
+            qs = project_utils.attach_is_fan(qs, user=self.request.user)
+            qs = project_utils.attach_my_role_permissions(qs, user=self.request.user)
+            qs = project_utils.attach_my_role_permissions(qs, user=self.request.user)
+            qs = project_utils.attach_closed_milestones(qs)
+        else:
+            qs = project_utils.attach_extra_info(qs, user=self.request.user)
 
         # If filtering an activity period we must exclude the activities not updated recently enough
         now = timezone.now()
@@ -659,6 +668,7 @@ class MembershipViewSet(BlockedByProjectMixin, ModelCrudViewSet):
     permission_classes = (permissions.MembershipPermission,)
     filter_backends = (filters.CanViewProjectFilterBackend,)
     filter_fields = ("project", "role")
+    throttle_classes = (throttling.MembershipsRateThrottle,)
 
     def get_serializer_class(self):
         use_admin_serializer = False
@@ -716,11 +726,12 @@ class MembershipViewSet(BlockedByProjectMixin, ModelCrudViewSet):
             self._check_if_project_can_have_more_memberships(project, total_new_memberships)
 
         try:
-            members = services.create_members_in_bulk(data["bulk_memberships"],
-                                                      project=project,
-                                                      invitation_extra_text=invitation_extra_text,
-                                                      callback=self.post_save,
-                                                      precall=self.pre_save)
+            with advisory_lock("membership-creation-{}".format(project.id)):
+                members = services.create_members_in_bulk(data["bulk_memberships"],
+                                                          project=project,
+                                                          invitation_extra_text=invitation_extra_text,
+                                                          callback=self.post_save,
+                                                          precall=self.pre_save)
         except exc.ValidationError as err:
             return response.BadRequest(err.message_dict)
 
