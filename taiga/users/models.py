@@ -266,6 +266,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         qs = qs.exclude(id=self.id)
         return qs
 
+    def possible_users_for_project(self):
+        qs = User.objects.filter(is_active=True, is_system=False)
+        qs = qs.exclude(id=self.id)
+        return qs
+
     def save(self, *args, **kwargs):
         get_token_for_user(self, "cancel_account")
         super().save(*args, **kwargs)

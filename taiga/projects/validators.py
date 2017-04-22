@@ -165,7 +165,7 @@ class MembershipValidator(validators.ModelValidator):
             # If the validation comes from a request let's check the user is a valid contact
             request = self.context.get("request", None)
             if request is not None and request.user.is_authenticated():
-                valid_usernames = request.user.contacts_visible_by_user(request.user).values_list("username", flat=True)
+                valid_usernames = request.user.possible_users_for_project().values_list("username", flat=True)
                 if username not in valid_usernames:
                     raise ValidationError(_("The user must be a valid contact"))
 
