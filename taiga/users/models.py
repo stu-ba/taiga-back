@@ -183,7 +183,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     _cached_notify_levels = None
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "username"]
+    REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
 
