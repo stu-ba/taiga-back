@@ -64,7 +64,7 @@ class UserAdminValidator(UserValidator):
         # IMPORTANT: Maintain the UserSerializer Meta up to date
         # with this info (including here the email)
         fields = ("username", "full_name", "color", "bio", "lang",
-                  "theme", "timezone", "is_active", "email")
+                  "theme", "timezone", "is_active", "email", "is_superuser")
 
 
 class CreateUserAdminValidator(UserAdminValidator):
