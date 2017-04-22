@@ -47,11 +47,11 @@ class UserValidator(validators.ModelValidator):
         try:
             validator(value)
         except ValidationError:
-            raise ValidationError(_("Required. 255 characters or fewer. Letters, "
+            raise ValidationError(_("Required. 40 characters or fewer. Letters, "
                                     "numbers and /./-/_ characters'"))
 
         if (self.object and
-                self.object.username != value and
+                    self.object.username != value and
                 User.objects.filter(username=value).exists()):
             raise ValidationError(_("Invalid username. Try with a different one."))
 
@@ -64,7 +64,11 @@ class UserAdminValidator(UserValidator):
         # IMPORTANT: Maintain the UserSerializer Meta up to date
         # with this info (including here the email)
         fields = ("username", "full_name", "color", "bio", "lang",
-                  "theme", "timezone", "is_active", "email")
+                  "theme", "timezone", "is_active", "email", "is_superuser")
+
+
+class CreateUserAdminValidator(UserAdminValidator):
+    email = serializers.EmailField(max_length=255, required=True)
 
 
 class RecoveryValidator(validators.Validator):
