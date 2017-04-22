@@ -144,11 +144,11 @@ class User(AbstractBaseUser, PermissionsMixin):
                              max_length=500, null=True, blank=True,
                              verbose_name=_("photo"))
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
-    lang = models.CharField(max_length=20, null=True, blank=True, default="",
+    lang = models.CharField(max_length=20, null=True, blank=True, default="en",
                             verbose_name=_("default language"))
     theme = models.CharField(max_length=100, null=True, blank=True, default="",
                             verbose_name=_("default theme"))
-    timezone = models.CharField(max_length=20, null=True, blank=True, default="",
+    timezone = models.CharField(max_length=20, null=True, blank=True, default=settings.TIME_ZONE,
                                 verbose_name=_("default timezone"))
     colorize_tags = models.BooleanField(null=False, blank=True, default=False,
                                         verbose_name=_("colorize tags"))
