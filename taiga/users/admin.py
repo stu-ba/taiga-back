@@ -124,6 +124,12 @@ class UserAdmin(DjangoUserAdmin):
                                         ("max_public_projects", "max_memberships_public_projects"))}),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2')}
+         ),
+    )
     form = UserChangeForm
     add_form = UserCreationForm
     list_display = ("username", "email", "full_name")

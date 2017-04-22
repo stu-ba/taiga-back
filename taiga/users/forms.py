@@ -25,7 +25,6 @@ from .models import User
 
 
 class UserCreationForm(DjangoUserCreationForm):
-    email = forms.EmailField(required=True)
     def clean_username(self):
         # Since User.username is unique, this check is redundant,
         # but it sets a nicer error message than the ORM. See #13147.

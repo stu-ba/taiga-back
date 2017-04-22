@@ -131,7 +131,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         validators=[
             validators.RegexValidator(re.compile("^[\w.-]+$"), _("Enter a valid username."), "invalid")
         ])
-    email = models.EmailField(_("email address"), max_length=254, unique=True)
+    email = models.EmailField(_("email address"), max_length=254, blank=False, unique=True)
     is_active = models.BooleanField(_("active"), default=True,
         help_text=_("Designates whether this user should be treated as "
                     "active. Unselect this instead of deleting accounts."))
