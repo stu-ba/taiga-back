@@ -219,7 +219,7 @@ class _MemberBulkValidator(validators.Validator):
             request = self.context.get("request", None)
             if request is not None and request.user.is_authenticated():
                 valid_usernames = set(
-                    request.user.contacts_visible_by_user(request.user).values_list("username", flat=True))
+                    request.user.possible_users_for_project().values_list("username", flat=True))
                 if username not in valid_usernames:
                     raise ValidationError(_("The user must be a valid contact"))
 
