@@ -51,6 +51,7 @@ class UserPermission(TaigaResourcePermission):
     liked_perms = AllowAny()
     voted_perms = AllowAny()
     watched_perms = AllowAny()
+    create_perms = IsSuperUser()
 
 
 class RolesPermission(TaigaResourcePermission):
