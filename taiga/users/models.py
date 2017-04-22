@@ -162,7 +162,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_system = models.BooleanField(null=False, blank=False, default=False)
 
-
     max_private_projects = models.IntegerField(null=True, blank=True,
                                                default=settings.MAX_PRIVATE_PROJECTS_PER_USER,
                                                verbose_name=_("max number of owned private projects"))

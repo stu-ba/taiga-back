@@ -62,7 +62,7 @@ class UsersViewSet(ModelCrudViewSet):
     model = models.User
 
     def get_serializer_class(self):
-        if self.action in ["partial_update", "update", "retrieve", "by_username"]:
+        if self.action in ["partial_update", "update", "retrieve", "by_username", "create"]:
             user = self.object
             if self.request.user == user or self.request.user.is_superuser:
                 return self.admin_serializer_class
@@ -84,10 +84,8 @@ class UsersViewSet(ModelCrudViewSet):
         return qs
 
     def create(self, request, *args, **kwargs):
-        validator = validators.CreateUserAdminValidator(data=request.DATA, many=False)
-        
-        if not validator.is_valid():
-            raise exc.WrongArguments(_("Invalid data"))
+        self.validator_class = validators.CreateUserAdminValidator
+
         return super().create(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
