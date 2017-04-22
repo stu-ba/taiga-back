@@ -59,7 +59,7 @@ class UserValidator(validators.ModelValidator):
 
 
 class UserAdminValidator(UserValidator):
-    # email = serializers.EmailField(required=True)
+    email = serializers.EmailField(max_length=255)
 
     class Meta:
         model = User
