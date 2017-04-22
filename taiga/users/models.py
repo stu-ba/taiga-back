@@ -126,13 +126,13 @@ class PermissionsMixin(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(_("username"), max_length=255, unique=True,
-        help_text=_("Required. 30 characters or fewer. Letters, numbers and "
+    username = models.CharField(_("username"), max_length=40, unique=True,
+        help_text=_("Required. 40 characters or fewer. Letters, numbers and "
                     "/./-/_ characters"),
         validators=[
             validators.RegexValidator(re.compile("^[\w.-]+$"), _("Enter a valid username."), "invalid")
         ])
-    email = models.EmailField(_("email address"), max_length=255, blank=True, unique=True)
+    email = models.EmailField(_("email address"), max_length=255, unique=True)
     is_active = models.BooleanField(_("active"), default=True,
         help_text=_("Designates whether this user should be treated as "
                     "active. Unselect this instead of deleting accounts."))
@@ -185,7 +185,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     _cached_notify_levels = None
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    REQUIRED_FIELDS = ["email", "username"]
 
     objects = UserManager()
 
