@@ -59,6 +59,8 @@ class UserValidator(validators.ModelValidator):
 
 
 class UserAdminValidator(UserValidator):
+    email = serializers.EmailField(required=True)
+
     class Meta:
         model = User
         # IMPORTANT: Maintain the UserSerializer Meta up to date
