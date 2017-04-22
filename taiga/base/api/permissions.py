@@ -35,7 +35,7 @@ class ResourcePermission(object):
     Base class for define resource permissions.
     """
 
-    enought_perms = None
+    enough_perms = None
     global_perms = None
     retrieve_perms = None
     create_perms = None
@@ -67,8 +67,8 @@ class ResourcePermission(object):
         if self.global_perms:
             permset = (self.global_perms & permset)
 
-        if self.enought_perms:
-            permset = (self.enought_perms | permset)
+        if self.enough_perms:
+            permset = (self.enough_perms | permset)
 
         return permset.check_permissions(request=self.request,
                                          view=self.view,
@@ -198,12 +198,12 @@ class IsObjectOwner(PermissionComponent):
 ######################################################################
 
 class AllowAnyPermission(ResourcePermission):
-    enought_perms = AllowAny()
+    enough_perms = AllowAny()
 
 
 class IsAuthenticatedPermission(ResourcePermission):
-    enought_perms = IsAuthenticated()
+    enough_perms = IsAuthenticated()
 
 
 class TaigaResourcePermission(ResourcePermission):
-    enought_perms = IsSuperUser()
+    enough_perms = IsSuperUser()
