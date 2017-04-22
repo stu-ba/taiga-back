@@ -115,8 +115,8 @@ class RoleAdmin(admin.ModelAdmin):
 
 class UserAdmin(DjangoUserAdmin):
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("full_name", "email", "bio", "photo")}),
+        (None, {"fields": ("username", "email", "password")}),
+        (_("Personal info"), {"fields": ("full_name", "bio", "photo")}),
         (_("Extra info"), {"fields": ("color", "lang", "timezone", "token", "colorize_tags",
                                       "email_token", "new_email")}),
         (_("Permissions"), {"fields": ("is_active", "is_superuser")}),
