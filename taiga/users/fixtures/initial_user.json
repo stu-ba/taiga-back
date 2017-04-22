@@ -1,22 +1,43 @@
 [
-    {
-        "model": "users.user",
-        "fields": {
-            "username": "admin",
-            "full_name": "Administrator",
-            "bio": "",
-            "lang": "",
-            "color": "",
-            "photo": "",
-            "is_active": true,
-            "colorize_tags": false,
-            "timezone": "",
-            "is_superuser": true,
-            "token": "",
-            "last_login": "2013-04-04T07:36:09.880Z",
-            "password": "pbkdf2_sha256$10000$oRIbCKOL1U3w$/gaYMnOlc/GnN4mn3UUXvXpk2Hx0vvht6Uqhu46aikI=",
-            "email": "admin@admin.com",
-            "date_joined": "2013-04-01T13:48:21.711Z"
-        }
+  {
+    "model": "users.user",
+    "fields": {
+      "username": "ytrium",
+      "full_name": "Mr. Yap",
+      "bio": "I am not human.",
+      "lang": "en",
+      "color": "",
+      "photo": "",
+      "is_system": true,
+      "is_active": false,
+      "colorize_tags": false,
+      "timezone": "",
+      "is_superuser": true,
+      "token": "",
+      "last_login": "",
+      "password": "pbkdf2_sha256$10000$oRIbCKOL1U3w$/gaYMnOlc/GnN4mn3UUXvXpk2Hx0vvht6Uqhu46aikI=",
+      "email": "ytrium.yap@gmail.com",
+      "date_joined": "2017-01-01T00:00:00.000Z"
     }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "username": "admin",
+      "full_name": "Mr. Admin",
+      "bio": "This account will be deleted.",
+      "lang": "en",
+      "color": "",
+      "photo": "",
+      "is_active": true,
+      "colorize_tags": false,
+      "timezone": "",
+      "is_superuser": true,
+      "token": "",
+      "last_login": "2017-01-01T00:00:02.000Z",
+      "password": "pbkdf2_sha256$10000$oRIbCKOL1U3w$/gaYMnOlc/GnN4mn3UUXvXpk2Hx0vvht6Uqhu46aikI=",
+      "email": "admin@admin.com",
+      "date_joined": "2017-01-01T00:00:01.000Z"
+    }
+  }
 ]
