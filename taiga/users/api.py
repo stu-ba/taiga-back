@@ -83,8 +83,12 @@ class UsersViewSet(ModelCrudViewSet):
         qs = user_utils.attach_extra_info(qs, user=self.request.user)
         return qs
 
-    # def create(self, *args, **kwargs):
-    #     raise exc.NotSupported()
+    def create(self, request, *args, **kwargs):
+        validator = validators.CreateUserAdminValidator(data=request.DATA, many=False)
+        
+        if not validator.is_valid():
+            raise exc.WrongArguments(_("Invalid data"))
+        return super().create(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
         self.object_list = MembersFilterBackend().filter_queryset(request,

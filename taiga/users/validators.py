@@ -51,7 +51,7 @@ class UserValidator(validators.ModelValidator):
                                     "numbers and /./-/_ characters'"))
 
         if (self.object and
-                self.object.username != value and
+                    self.object.username != value and
                 User.objects.filter(username=value).exists()):
             raise ValidationError(_("Invalid username. Try with a different one."))
 
@@ -59,14 +59,16 @@ class UserValidator(validators.ModelValidator):
 
 
 class UserAdminValidator(UserValidator):
-    email = serializers.EmailField(max_length=255)
-
     class Meta:
         model = User
         # IMPORTANT: Maintain the UserSerializer Meta up to date
         # with this info (including here the email)
         fields = ("username", "full_name", "color", "bio", "lang",
                   "theme", "timezone", "is_active", "email")
+
+
+class CreateUserAdminValidator(UserAdminValidator):
+    email = serializers.EmailField(max_length=255, required=True)
 
 
 class RecoveryValidator(validators.Validator):
