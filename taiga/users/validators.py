@@ -47,7 +47,7 @@ class UserValidator(validators.ModelValidator):
         try:
             validator(value)
         except ValidationError:
-            raise ValidationError(_("Required. 255 characters or fewer. Letters, "
+            raise ValidationError(_("Required. 40 characters or fewer. Letters, "
                                     "numbers and /./-/_ characters'"))
 
         if (self.object and
