@@ -1,3 +1,21 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014-2017 Andrey Antukh <niwi@niwi.nz>
+# Copyright (C) 2014-2017 Jesús Espino <jespinog@gmail.com>
+# Copyright (C) 2014-2017 David Barragán <bameda@dbarragan.com>
+# Copyright (C) 2014-2017 Alejandro Alonso <alejandro.alonso@kaleidos.net>
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import os.path, sys, os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -9,7 +27,7 @@ ADMINS = (
     ("Admin", "example@example.com"),
 )
 
-DEBUG = True
+DEBUG = False
 
 DATABASES = {
     "default": {
@@ -37,12 +55,12 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
 
 # Errors report configuration
-SEND_BROKEN_LINK_EMAILS = False
+SEND_BROKEN_LINK_EMAILS = True
 IGNORABLE_404_ENDS = (".php", ".cgi")
 IGNORABLE_404_STARTS = ("/phpmyadmin/",)
 
 ATOMIC_REQUESTS = True
-TIME_ZONE = "Europe/Bratislava"
+TIME_ZONE = "UTC"
 LOGIN_URL = "/auth/login/"
 USE_TZ = True
 
@@ -54,20 +72,89 @@ LANGUAGE_CODE = 'en-us'
 
 # Languages we provide translations for, out of the box.
 LANGUAGES = [
+    # ("af", "Afrikaans"),  # Afrikaans
+    # ("ar", "العربية‏"),  # Arabic
+    # ("ast", "Asturiano"),  # Asturian
+    # ("az", "Azərbaycan dili"),  # Azerbaijani
+    # ("bg", "Български"),  # Bulgarian
+    # ("be", "Беларуская"),  # Belarusian
+    # ("bn", "বাংলা"),  # Bengali
+    # ("br", "Bretón"),  # Breton
+    # ("bs", "Bosanski"),  # Bosnian
     ("ca", "Català"),  # Catalan
+    # ("cs", "Čeština"),  # Czech
+    # ("cy", "Cymraeg"),  # Welsh
+    # ("da", "Dansk"),  # Danish
     ("de", "Deutsch"),  # German
+    # ("el", "Ελληνικά"),  # Greek
     ("en", "English (US)"),  # English
+    # ("en-au", "English (Australia)"),  # Australian English
+    # ("en-gb", "English (UK)"),  # British English
+    # ("eo", "esperanta"),  # Esperanto
     ("es", "Español"),  # Spanish
+    # ("es-ar", "Español (Argentina)"),  # Argentinian Spanish
+    # ("es-mx", "Español (México)"),  # Mexican Spanish
+    # ("es-ni", "Español (Nicaragua)"),  # Nicaraguan Spanish
+    # ("es-ve", "Español (Venezuela)"),  # Venezuelan Spanish
+    # ("et", "Eesti"),  # Estonian
+    # ("eu", "Euskara"),  # Basque
+    # ("fa", "فارسی‏"),  # Persian
     ("fi", "Suomi"),  # Finnish
     ("fr", "Français"),  # French
+    # ("fy", "Frysk"),  # Frisian
+    # ("ga", "Irish"),  # Irish
+    # ("gl", "Galego"),  # Galician
+    # ("he", "עברית‏"),  # Hebrew
+    # ("hi", "हिन्दी"),  # Hindi
+    # ("hr", "Hrvatski"),  # Croatian
+    # ("hu", "Magyar"),  # Hungarian
+    # ("ia", "Interlingua"),  # Interlingua
+    # ("id", "Bahasa Indonesia"),  # Indonesian
+    # ("io", "IDO"),  # Ido
+    # ("is", "Íslenska"),  # Icelandic
     ("it", "Italiano"),  # Italian
+    ("ja", "日本語"),  # Japanese
+    # ("ka", "ქართული"),  # Georgian
+    # ("kk", "Қазақша"),  # Kazakh
+    # ("km", "ភាសាខ្មែរ"),  # Khmer
+    # ("kn", "ಕನ್ನಡ"),  # Kannada
+    ("ko", "한국어"),  # Korean
+    # ("lb", "Lëtzebuergesch"),  # Luxembourgish
+    # ("lt", "Lietuvių"),  # Lithuanian
+    # ("lv", "Latviešu"),  # Latvian
+    # ("mk", "Македонски"),  # Macedonian
+    # ("ml", "മലയാളം"),  # Malayalam
+    # ("mn", "Монгол"),  # Mongolian
+    # ("mr", "मराठी"),  # Marathi
+    # ("my", "မြန်မာ"),  # Burmese
     ("nb", "Norsk (bokmål)"),  # Norwegian Bokmal
+    # ("ne", "नेपाली"),  # Nepali
     ("nl", "Nederlands"),  # Dutch
+    # ("nn", "Norsk (nynorsk)"),  # Norwegian Nynorsk
+    # ("os", "Ирон æвзаг"),  # Ossetic
+    # ("pa", "ਪੰਜਾਬੀ"),  # Punjabi
     ("pl", "Polski"),  # Polish
+    # ("pt", "Português (Portugal)"),  # Portuguese
     ("pt-br", "Português (Brasil)"),  # Brazilian Portuguese
+    # ("ro", "Română"),  # Romanian
     ("ru", "Русский"),  # Russian
+    # ("sk", "Slovenčina"),  # Slovak
+    # ("sl", "Slovenščina"),  # Slovenian
+    # ("sq", "Shqip"),  # Albanian
+    # ("sr", "Српски"),  # Serbian
+    # ("sr-latn", "srpski"),  # Serbian Latin
     ("sv", "Svenska"),  # Swedish
+    # ("sw", "Kiswahili"),  # Swahili
+    # ("ta", "தமிழ்"),  # Tamil
+    # ("te", "తెలుగు"),  # Telugu
+    # ("th", "ภาษาไทย"),  # Thai
     ("tr", "Türkçe"),  # Turkish
+    # ("tt", "татар теле"),  # Tatar
+    # ("udm", "удмурт кыл"),  # Udmurt
+    # ("uk", "Українська"),  # Ukrainian
+    # ("ur", "اردو‏"),  # Urdu
+    # ("vi", "Tiếng Việt"),  # Vietnamese
+    ("zh-hans", "中文(简体)"),  # Simplified Chinese
     ("zh-hant", "中文(香港)"),  # Traditional Chinese
 ]
 
@@ -101,6 +188,8 @@ DJMAIL_TEMPLATE_EXTENSION = "jinja"
 
 # Events backend
 EVENTS_PUSH_BACKEND = "taiga.events.backends.postgresql.EventsPushBackend"
+# EVENTS_PUSH_BACKEND = "taiga.events.backends.rabbitmq.EventsPushBackend"
+# EVENTS_PUSH_BACKEND_OPTIONS = {"url": "//guest:guest@127.0.0.1/"}
 
 # Message System
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
@@ -128,7 +217,7 @@ STATICFILES_DIRS = (
 # Defautl storage
 DEFAULT_FILE_STORAGE = "taiga.base.storage.FileSystemStorage"
 
-SECRET_KEY = "keJzxwo9+0ZcRDT9GK93I0/uF5nX2+1myvsPE/N8UO0"
+SECRET_KEY = "aw3+t2r(8(0kkrhg8)gx6i96v5^kv%6cfep9wxfom0%7dy0m9e"
 
 TEMPLATES = [
     {
@@ -329,7 +418,7 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",  # default
 )
 
-MAX_AGE_AUTH_TOKEN = 30 * 24 * 60 * 60
+MAX_AGE_AUTH_TOKEN = None
 MAX_AGE_CANCEL_ACCOUNT = 30 * 24 * 60 * 60  # 30 days in seconds
 
 REST_FRAMEWORK = {
@@ -338,7 +427,7 @@ REST_FRAMEWORK = {
         "taiga.auth.backends.Token",
 
         # Mainly used for api debug.
-        "taiga.auth.backends.Session",
+        # "taiga.auth.backends.Session",
 
         # Application tokens auth
         "taiga.external_apps.auth_backends.Token",
@@ -381,20 +470,20 @@ PUBLIC_REGISTER_ENABLED = False
 # None or [] values in USER_EMAIL_ALLOWED_DOMAINS means allow any domain
 USER_EMAIL_ALLOWED_DOMAINS = None
 
-SEARCHES_MAX_RESULTS = 100
+SEARCHES_MAX_RESULTS = 150
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
-THN_AVATAR_SIZE = 80                # 80x80 pixels
-THN_AVATAR_BIG_SIZE = 300           # 300x300 pixels
-THN_LOGO_SMALL_SIZE = 80            # 80x80 pixels
-THN_LOGO_BIG_SIZE = 300             # 300x300 pixels
-THN_TIMELINE_IMAGE_SIZE = 640       # 640x??? pixels
-THN_CARD_IMAGE_WIDTH = 300          # 300 pixels
-THN_CARD_IMAGE_HEIGHT = 200         # 200 pixels
-THN_PREVIEW_IMAGE_WIDTH = 800       # 800 pixels
+THN_AVATAR_SIZE = 80  # 80x80 pixels
+THN_AVATAR_BIG_SIZE = 300  # 300x300 pixels
+THN_LOGO_SMALL_SIZE = 80  # 80x80 pixels
+THN_LOGO_BIG_SIZE = 300  # 300x300 pixels
+THN_TIMELINE_IMAGE_SIZE = 640  # 640x??? pixels
+THN_CARD_IMAGE_WIDTH = 300  # 300 pixels
+THN_CARD_IMAGE_HEIGHT = 200  # 200 pixels
+THN_PREVIEW_IMAGE_WIDTH = 800  # 800 pixels
 
 THN_AVATAR_SMALL = "avatar"
 THN_AVATAR_BIG = "big-avatar"
@@ -425,24 +514,24 @@ TAGS_PREDEFINED_COLORS = ["#fce94f", "#edd400", "#c4a000", "#8ae234",
 
 # Feedback module settings
 FEEDBACK_ENABLED = False
-# FEEDBACK_EMAIL = "support@taiga.io"
+FEEDBACK_EMAIL = "support@taiga.io"
 
 # Stats module settings
 STATS_ENABLED = False
-STATS_CACHE_TIMEOUT = 60 * 60  # 1 hour In second
+STATS_CACHE_TIMEOUT = 60 * 60  # In second
 
 # 0 notifications will work in a synchronous way
 # >0 an external process will check the pending notifications and will send them
 # collapsed during that interval
-CHANGE_NOTIFICATIONS_MIN_INTERVAL = 60  # seconds
+CHANGE_NOTIFICATIONS_MIN_INTERVAL = 0  # seconds
 
 # List of functions called for filling correctly the ProjectModulesConfig associated to a project
 # This functions should receive a Project parameter and return a dict with the desired configuration
 PROJECT_MODULES_CONFIGURATORS = {
     "github": "taiga.hooks.github.services.get_or_generate_config",
-    # "gitlab": "taiga.hooks.gitlab.services.get_or_generate_config",
-    # "bitbucket": "taiga.hooks.bitbucket.services.get_or_generate_config",
-    # "gogs": "taiga.hooks.gogs.services.get_or_generate_config",
+    #"gitlab": "taiga.hooks.gitlab.services.get_or_generate_config",
+    #"bitbucket": "taiga.hooks.bitbucket.services.get_or_generate_config",
+    #"gogs": "taiga.hooks.gogs.services.get_or_generate_config",
 }
 
 BITBUCKET_VALID_ORIGIN_IPS = ["131.103.20.165", "131.103.20.166", "104.192.143.192/28", "104.192.143.208/28"]
@@ -452,7 +541,7 @@ GITLAB_VALID_ORIGIN_IPS = []
 EXPORTS_TTL = 60 * 60 * 24  # 24 hours
 
 CELERY_ENABLED = False
-WEBHOOKS_ENABLED = True
+WEBHOOKS_ENABLED = False
 
 # If is True /front/sitemap.xml show a valid sitemap of taiga-front client
 FRONT_SITEMAP_ENABLED = True
@@ -467,9 +556,32 @@ MAX_MEMBERSHIPS_PUBLIC_PROJECTS = None  # None == no limit
 
 MAX_PENDING_MEMBERSHIPS = 30  # Max number of unconfirmed memberships in a project
 
-FIRST_DAY_OF_WEEK = 1
-
 from .sr import *
+
+IMPORTERS = {
+    "github": {
+        "active": False,
+        "client_id": "",
+        "client_secret": "",
+    },
+    "trello": {
+        "active": False,
+        "api_key": "",
+        "secret_key": "",
+    },
+    "jira": {
+        "active": False,
+        "consumer_key": "",
+        "cert": "",
+        "pub_cert": "",
+    },
+    "asana": {
+        "active": False,
+        "callback_url": "",
+        "app_id": "",
+        "app_secret": "",
+    }
+}
 
 # NOTE: DON'T INSERT MORE SETTINGS AFTER THIS LINE
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
