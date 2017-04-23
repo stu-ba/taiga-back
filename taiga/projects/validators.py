@@ -27,7 +27,6 @@ from taiga.base.fields import JSONField
 from taiga.base.fields import PgArrayField
 from taiga.users.models import User, Role
 
-
 from .tagging.fields import TagsField
 
 from . import models
@@ -165,15 +164,14 @@ class MembershipValidator(validators.ModelValidator):
             # If the validation comes from a request let's check the user is a valid contact
             request = self.context.get("request", None)
             if request is not None and request.user.is_authenticated():
-                valid_usernames = request.user.contacts_visible_by_user(request.user).values_list("username", flat=True)
+                valid_usernames = request.user.possible_users_for_project().values_list("username", flat=True)
                 if username not in valid_usernames:
-                    raise ValidationError(_("The user must be a valid contact"))
+                    raise ValidationError(_("The user must exists"))
 
         user = User.objects.filter(Q(username=username) | Q(email=username)).first()
         if user is not None:
             email = user.email
             self.user = user
-
         else:
             email = username
 
@@ -220,7 +218,8 @@ class _MemberBulkValidator(validators.Validator):
             # If the validation comes from a request let's check the user is a valid contact
             request = self.context.get("request", None)
             if request is not None and request.user.is_authenticated():
-                valid_usernames = set(request.user.contacts_visible_by_user(request.user).values_list("username", flat=True))
+                valid_usernames = set(
+                    request.user.possible_users_for_project().values_list("username", flat=True))
                 if username not in valid_usernames:
                     raise ValidationError(_("The user must be a valid contact"))
 
