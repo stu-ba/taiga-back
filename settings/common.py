@@ -44,7 +44,10 @@ CACHES = {
 }
 
 PASSWORD_HASHERS = [
-    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
 
 # Default configuration for reverse proxy
@@ -58,7 +61,7 @@ IGNORABLE_404_STARTS = ("/phpmyadmin/",)
 
 ATOMIC_REQUESTS = True
 TIME_ZONE = "UTC"
-LOGIN_URL="/auth/login/"
+LOGIN_URL = "/auth/login/"
 USE_TZ = True
 
 USE_I18N = True
@@ -69,88 +72,88 @@ LANGUAGE_CODE = 'en-us'
 
 # Languages we provide translations for, out of the box.
 LANGUAGES = [
-    #("af", "Afrikaans"),  # Afrikaans
-    #("ar", "العربية‏"),  # Arabic
-    #("ast", "Asturiano"),  # Asturian
-    #("az", "Azərbaycan dili"),  # Azerbaijani
-    #("bg", "Български"),  # Bulgarian
-    #("be", "Беларуская"),  # Belarusian
-    #("bn", "বাংলা"),  # Bengali
-    #("br", "Bretón"),  # Breton
-    #("bs", "Bosanski"),  # Bosnian
+    # ("af", "Afrikaans"),  # Afrikaans
+    # ("ar", "العربية‏"),  # Arabic
+    # ("ast", "Asturiano"),  # Asturian
+    # ("az", "Azərbaycan dili"),  # Azerbaijani
+    # ("bg", "Български"),  # Bulgarian
+    # ("be", "Беларуская"),  # Belarusian
+    # ("bn", "বাংলা"),  # Bengali
+    # ("br", "Bretón"),  # Breton
+    # ("bs", "Bosanski"),  # Bosnian
     ("ca", "Català"),  # Catalan
-    #("cs", "Čeština"),  # Czech
-    #("cy", "Cymraeg"),  # Welsh
-    #("da", "Dansk"),  # Danish
+    # ("cs", "Čeština"),  # Czech
+    # ("cy", "Cymraeg"),  # Welsh
+    # ("da", "Dansk"),  # Danish
     ("de", "Deutsch"),  # German
-    #("el", "Ελληνικά"),  # Greek
+    # ("el", "Ελληνικά"),  # Greek
     ("en", "English (US)"),  # English
-    #("en-au", "English (Australia)"),  # Australian English
-    #("en-gb", "English (UK)"),  # British English
-    #("eo", "esperanta"),  # Esperanto
+    # ("en-au", "English (Australia)"),  # Australian English
+    # ("en-gb", "English (UK)"),  # British English
+    # ("eo", "esperanta"),  # Esperanto
     ("es", "Español"),  # Spanish
-    #("es-ar", "Español (Argentina)"),  # Argentinian Spanish
-    #("es-mx", "Español (México)"),  # Mexican Spanish
-    #("es-ni", "Español (Nicaragua)"),  # Nicaraguan Spanish
-    #("es-ve", "Español (Venezuela)"),  # Venezuelan Spanish
-    #("et", "Eesti"),  # Estonian
-    #("eu", "Euskara"),  # Basque
-    #("fa", "فارسی‏"),  # Persian
+    # ("es-ar", "Español (Argentina)"),  # Argentinian Spanish
+    # ("es-mx", "Español (México)"),  # Mexican Spanish
+    # ("es-ni", "Español (Nicaragua)"),  # Nicaraguan Spanish
+    # ("es-ve", "Español (Venezuela)"),  # Venezuelan Spanish
+    # ("et", "Eesti"),  # Estonian
+    # ("eu", "Euskara"),  # Basque
+    # ("fa", "فارسی‏"),  # Persian
     ("fi", "Suomi"),  # Finnish
     ("fr", "Français"),  # French
-    #("fy", "Frysk"),  # Frisian
-    #("ga", "Irish"),  # Irish
-    #("gl", "Galego"),  # Galician
-    #("he", "עברית‏"),  # Hebrew
-    #("hi", "हिन्दी"),  # Hindi
-    #("hr", "Hrvatski"),  # Croatian
-    #("hu", "Magyar"),  # Hungarian
-    #("ia", "Interlingua"),  # Interlingua
-    #("id", "Bahasa Indonesia"),  # Indonesian
-    #("io", "IDO"),  # Ido
-    #("is", "Íslenska"),  # Icelandic
+    # ("fy", "Frysk"),  # Frisian
+    # ("ga", "Irish"),  # Irish
+    # ("gl", "Galego"),  # Galician
+    # ("he", "עברית‏"),  # Hebrew
+    # ("hi", "हिन्दी"),  # Hindi
+    # ("hr", "Hrvatski"),  # Croatian
+    # ("hu", "Magyar"),  # Hungarian
+    # ("ia", "Interlingua"),  # Interlingua
+    # ("id", "Bahasa Indonesia"),  # Indonesian
+    # ("io", "IDO"),  # Ido
+    # ("is", "Íslenska"),  # Icelandic
     ("it", "Italiano"),  # Italian
     ("ja", "日本語"),  # Japanese
-    #("ka", "ქართული"),  # Georgian
-    #("kk", "Қазақша"),  # Kazakh
-    #("km", "ភាសាខ្មែរ"),  # Khmer
-    #("kn", "ಕನ್ನಡ"),  # Kannada
+    # ("ka", "ქართული"),  # Georgian
+    # ("kk", "Қазақша"),  # Kazakh
+    # ("km", "ភាសាខ្មែរ"),  # Khmer
+    # ("kn", "ಕನ್ನಡ"),  # Kannada
     ("ko", "한국어"),  # Korean
-    #("lb", "Lëtzebuergesch"),  # Luxembourgish
-    #("lt", "Lietuvių"),  # Lithuanian
-    #("lv", "Latviešu"),  # Latvian
-    #("mk", "Македонски"),  # Macedonian
-    #("ml", "മലയാളം"),  # Malayalam
-    #("mn", "Монгол"),  # Mongolian
-    #("mr", "मराठी"),  # Marathi
-    #("my", "မြန်မာ"),  # Burmese
+    # ("lb", "Lëtzebuergesch"),  # Luxembourgish
+    # ("lt", "Lietuvių"),  # Lithuanian
+    # ("lv", "Latviešu"),  # Latvian
+    # ("mk", "Македонски"),  # Macedonian
+    # ("ml", "മലയാളം"),  # Malayalam
+    # ("mn", "Монгол"),  # Mongolian
+    # ("mr", "मराठी"),  # Marathi
+    # ("my", "မြန်မာ"),  # Burmese
     ("nb", "Norsk (bokmål)"),  # Norwegian Bokmal
-    #("ne", "नेपाली"),  # Nepali
+    # ("ne", "नेपाली"),  # Nepali
     ("nl", "Nederlands"),  # Dutch
-    #("nn", "Norsk (nynorsk)"),  # Norwegian Nynorsk
-    #("os", "Ирон æвзаг"),  # Ossetic
-    #("pa", "ਪੰਜਾਬੀ"),  # Punjabi
+    # ("nn", "Norsk (nynorsk)"),  # Norwegian Nynorsk
+    # ("os", "Ирон æвзаг"),  # Ossetic
+    # ("pa", "ਪੰਜਾਬੀ"),  # Punjabi
     ("pl", "Polski"),  # Polish
-    #("pt", "Português (Portugal)"),  # Portuguese
+    # ("pt", "Português (Portugal)"),  # Portuguese
     ("pt-br", "Português (Brasil)"),  # Brazilian Portuguese
-    #("ro", "Română"),  # Romanian
+    # ("ro", "Română"),  # Romanian
     ("ru", "Русский"),  # Russian
-    #("sk", "Slovenčina"),  # Slovak
-    #("sl", "Slovenščina"),  # Slovenian
-    #("sq", "Shqip"),  # Albanian
-    #("sr", "Српски"),  # Serbian
-    #("sr-latn", "srpski"),  # Serbian Latin
+    # ("sk", "Slovenčina"),  # Slovak
+    # ("sl", "Slovenščina"),  # Slovenian
+    # ("sq", "Shqip"),  # Albanian
+    # ("sr", "Српски"),  # Serbian
+    # ("sr-latn", "srpski"),  # Serbian Latin
     ("sv", "Svenska"),  # Swedish
-    #("sw", "Kiswahili"),  # Swahili
-    #("ta", "தமிழ்"),  # Tamil
-    #("te", "తెలుగు"),  # Telugu
-    #("th", "ภาษาไทย"),  # Thai
+    # ("sw", "Kiswahili"),  # Swahili
+    # ("ta", "தமிழ்"),  # Tamil
+    # ("te", "తెలుగు"),  # Telugu
+    # ("th", "ภาษาไทย"),  # Thai
     ("tr", "Türkçe"),  # Turkish
-    #("tt", "татар теле"),  # Tatar
-    #("udm", "удмурт кыл"),  # Udmurt
-    #("uk", "Українська"),  # Ukrainian
-    #("ur", "اردو‏"),  # Urdu
-    #("vi", "Tiếng Việt"),  # Vietnamese
+    # ("tt", "татар теле"),  # Tatar
+    # ("udm", "удмурт кыл"),  # Udmurt
+    # ("uk", "Українська"),  # Ukrainian
+    # ("ur", "اردو‏"),  # Urdu
+    # ("vi", "Tiếng Việt"),  # Vietnamese
     ("zh-hans", "中文(简体)"),  # Simplified Chinese
     ("zh-hant", "中文(香港)"),  # Traditional Chinese
 ]
@@ -172,7 +175,7 @@ SITE_ID = "api"
 
 # Session configuration (only used for admin)
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
-SESSION_COOKIE_AGE = 1209600 # (2 weeks)
+SESSION_COOKIE_AGE = 1209600  # (2 weeks)
 
 # MAIL OPTIONS
 DEFAULT_FROM_EMAIL = "john@doe.com"
@@ -180,7 +183,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DJMAIL_REAL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DJMAIL_SEND_ASYNC = True
-DJMAIL_MAX_RETRY_NUMBER = 3
+DJMAIL_MAX_RETRY_NUMBER = 1
 DJMAIL_TEMPLATE_EXTENSION = "jinja"
 
 # Events backend
@@ -256,7 +259,6 @@ TEMPLATES = [
     },
 ]
 
-
 MIDDLEWARE_CLASSES = [
     "taiga.base.middleware.cors.CoorsMiddleware",
     "taiga.events.middleware.SessionIDMiddleware",
@@ -270,7 +272,6 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
-
 
 ROOT_URLCONF = "taiga.urls"
 
@@ -355,12 +356,12 @@ LOGGING = {
     },
     "handlers": {
         "null": {
-            "level":"DEBUG",
-            "class":"logging.NullHandler",
+            "level": "DEBUG",
+            "class": "logging.NullHandler",
         },
-        "console":{
-            "level":"DEBUG",
-            "class":"logging.StreamHandler",
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
             "formatter": "simple",
         },
         "mail_admins": {
@@ -376,9 +377,9 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers":["null"],
+            "handlers": ["null"],
             "propagate": True,
-            "level":"INFO",
+            "level": "INFO",
         },
         "django.request": {
             "handlers": ["mail_admins", "console"],
@@ -403,7 +404,6 @@ LOGGING = {
     }
 }
 
-
 AUTH_USER_MODEL = "users.User"
 FORMAT_MODULE_PATH = "taiga.base.formats"
 
@@ -415,11 +415,11 @@ DATE_INPUT_FORMATS = (
 
 # Authentication settings (only for django admin)
 AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend", # default
+    "django.contrib.auth.backends.ModelBackend",  # default
 )
 
 MAX_AGE_AUTH_TOKEN = None
-MAX_AGE_CANCEL_ACCOUNT = 30 * 24 * 60 * 60 # 30 days in seconds
+MAX_AGE_CANCEL_ACCOUNT = 30 * 24 * 60 * 60  # 30 days in seconds
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -427,7 +427,7 @@ REST_FRAMEWORK = {
         "taiga.auth.backends.Token",
 
         # Mainly used for api debug.
-        "taiga.auth.backends.Session",
+        # "taiga.auth.backends.Session",
 
         # Application tokens auth
         "taiga.external_apps.auth_backends.Token",
@@ -476,15 +476,14 @@ SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
-
-THN_AVATAR_SIZE = 80                # 80x80 pixels
-THN_AVATAR_BIG_SIZE = 300           # 300x300 pixels
-THN_LOGO_SMALL_SIZE = 80            # 80x80 pixels
-THN_LOGO_BIG_SIZE = 300             # 300x300 pixels
-THN_TIMELINE_IMAGE_SIZE = 640       # 640x??? pixels
-THN_CARD_IMAGE_WIDTH = 300          # 300 pixels
-THN_CARD_IMAGE_HEIGHT = 200         # 200 pixels
-THN_PREVIEW_IMAGE_WIDTH = 800       # 800 pixels
+THN_AVATAR_SIZE = 80  # 80x80 pixels
+THN_AVATAR_BIG_SIZE = 300  # 300x300 pixels
+THN_LOGO_SMALL_SIZE = 80  # 80x80 pixels
+THN_LOGO_BIG_SIZE = 300  # 300x300 pixels
+THN_TIMELINE_IMAGE_SIZE = 640  # 640x??? pixels
+THN_CARD_IMAGE_WIDTH = 300  # 300 pixels
+THN_CARD_IMAGE_HEIGHT = 200  # 200 pixels
+THN_PREVIEW_IMAGE_WIDTH = 800  # 800 pixels
 
 THN_AVATAR_SMALL = "avatar"
 THN_AVATAR_BIG = "big-avatar"
@@ -511,29 +510,28 @@ TAGS_PREDEFINED_COLORS = ["#fce94f", "#edd400", "#c4a000", "#8ae234",
                           "#f57900", "#ce5c00", "#729fcf", "#3465a4",
                           "#204a87", "#888a85", "#ad7fa8", "#75507b",
                           "#5c3566", "#ef2929", "#cc0000", "#a40000",
-                          "#2e3436",]
+                          "#2e3436", ]
 
 # Feedback module settings
-FEEDBACK_ENABLED = True
+FEEDBACK_ENABLED = False
 FEEDBACK_EMAIL = "support@taiga.io"
 
 # Stats module settings
 STATS_ENABLED = False
-STATS_CACHE_TIMEOUT = 60*60  # In second
+STATS_CACHE_TIMEOUT = 60 * 60  # In second
 
 # 0 notifications will work in a synchronous way
 # >0 an external process will check the pending notifications and will send them
 # collapsed during that interval
-CHANGE_NOTIFICATIONS_MIN_INTERVAL = 0 #seconds
-
+CHANGE_NOTIFICATIONS_MIN_INTERVAL = 0  # seconds
 
 # List of functions called for filling correctly the ProjectModulesConfig associated to a project
 # This functions should receive a Project parameter and return a dict with the desired configuration
 PROJECT_MODULES_CONFIGURATORS = {
     "github": "taiga.hooks.github.services.get_or_generate_config",
-    "gitlab": "taiga.hooks.gitlab.services.get_or_generate_config",
-    "bitbucket": "taiga.hooks.bitbucket.services.get_or_generate_config",
-    "gogs": "taiga.hooks.gogs.services.get_or_generate_config",
+    #"gitlab": "taiga.hooks.gitlab.services.get_or_generate_config",
+    #"bitbucket": "taiga.hooks.bitbucket.services.get_or_generate_config",
+    #"gogs": "taiga.hooks.gogs.services.get_or_generate_config",
 }
 
 BITBUCKET_VALID_ORIGIN_IPS = ["131.103.20.165", "131.103.20.166", "104.192.143.192/28", "104.192.143.208/28"]
@@ -545,19 +543,18 @@ EXPORTS_TTL = 60 * 60 * 24  # 24 hours
 CELERY_ENABLED = False
 WEBHOOKS_ENABLED = False
 
-
 # If is True /front/sitemap.xml show a valid sitemap of taiga-front client
-FRONT_SITEMAP_ENABLED = False
-FRONT_SITEMAP_CACHE_TIMEOUT = 24*60*60  # In second
+FRONT_SITEMAP_ENABLED = True
+FRONT_SITEMAP_CACHE_TIMEOUT = 24 * 60 * 60  # In second
 
 EXTRA_BLOCKING_CODES = []
 
-MAX_PRIVATE_PROJECTS_PER_USER = None # None == no limit
-MAX_PUBLIC_PROJECTS_PER_USER = None # None == no limit
-MAX_MEMBERSHIPS_PRIVATE_PROJECTS = None # None == no limit
-MAX_MEMBERSHIPS_PUBLIC_PROJECTS = None # None == no limit
+MAX_PRIVATE_PROJECTS_PER_USER = 0  # None == no limit
+MAX_PUBLIC_PROJECTS_PER_USER = None  # None == no limit
+MAX_MEMBERSHIPS_PRIVATE_PROJECTS = 0  # None == no limit
+MAX_MEMBERSHIPS_PUBLIC_PROJECTS = None  # None == no limit
 
-MAX_PENDING_MEMBERSHIPS = 30 # Max number of unconfirmed memberships in a project
+MAX_PENDING_MEMBERSHIPS = 30  # Max number of unconfirmed memberships in a project
 
 from .sr import *
 
@@ -587,9 +584,9 @@ IMPORTERS = {
 }
 
 # NOTE: DON'T INSERT MORE SETTINGS AFTER THIS LINE
-TEST_RUNNER="django.test.runner.DiscoverRunner"
+TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
 if "test" in sys.argv:
-    print ("\033[1;91mNo django tests.\033[0m")
-    print ("Try: \033[1;33mpy.test\033[0m")
+    print("\033[1;91mNo django tests.\033[0m")
+    print("Try: \033[1;33mpy.test\033[0m")
     sys.exit(0)
