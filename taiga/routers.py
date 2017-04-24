@@ -26,7 +26,6 @@ from taiga.locale.api import LocalesViewSet
 
 router.register(r"locales", LocalesViewSet, base_name="locales")
 
-
 # Users & Roles
 from taiga.auth.api import AuthViewSet
 from taiga.users.api import UsersViewSet
@@ -36,18 +35,15 @@ router.register(r"auth", AuthViewSet, base_name="auth")
 router.register(r"users", UsersViewSet, base_name="users")
 router.register(r"roles", RolesViewSet, base_name="roles")
 
-
 # User Storage
 from taiga.userstorage.api import StorageEntriesViewSet
 
 router.register(r"user-storage", StorageEntriesViewSet, base_name="user-storage")
 
-
 # Notify policies
 from taiga.projects.notifications.api import NotifyPolicyViewSet
 
 router.register(r"notify-policies", NotifyPolicyViewSet, base_name="notifications")
-
 
 # Projects & Selectors
 from taiga.projects.api import ProjectViewSet
@@ -78,8 +74,7 @@ router.register(r"task-statuses", TaskStatusViewSet, base_name="task-statuses")
 router.register(r"issue-statuses", IssueStatusViewSet, base_name="issue-statuses")
 router.register(r"issue-types", IssueTypeViewSet, base_name="issue-types")
 router.register(r"priorities", PriorityViewSet, base_name="priorities")
-router.register(r"severities",SeverityViewSet , base_name="severities")
-
+router.register(r"severities", SeverityViewSet, base_name="severities")
 
 # Custom Attributes
 from taiga.projects.custom_attributes.api import EpicCustomAttributeViewSet
@@ -110,18 +105,15 @@ router.register(r"tasks/custom-attributes-values", TaskCustomAttributesValuesVie
 router.register(r"issues/custom-attributes-values", IssueCustomAttributesValuesViewSet,
                 base_name="issue-custom-attributes-values")
 
-
 # Search
 from taiga.searches.api import SearchViewSet
 
 router.register(r"search", SearchViewSet, base_name="search")
 
-
 # Resolver
 from taiga.projects.references.api import ResolverViewSet
 
 router.register(r"resolver", ResolverViewSet, base_name="resolver")
-
 
 # Attachments
 from taiga.projects.attachments.api import EpicAttachmentViewSet
@@ -140,7 +132,6 @@ router.register(r"issues/attachments", IssueAttachmentViewSet,
                 base_name="issue-attachments")
 router.register(r"wiki/attachments", WikiAttachmentViewSet,
                 base_name="wiki-attachments")
-
 
 # Project components
 from taiga.projects.milestones.api import MilestoneViewSet
@@ -172,10 +163,10 @@ router.register(r"milestones", MilestoneViewSet,
 router.register(r"milestones/(?P<resource_id>\d+)/watchers", MilestoneWatchersViewSet,
                 base_name="milestone-watchers")
 
-router.register(r"epics", EpicViewSet, base_name="epics")\
-      .register(r"related_userstories", EpicRelatedUserStoryViewSet,
-                base_name="epics-related-userstories",
-                parents_query_lookups=["epic"])
+router.register(r"epics", EpicViewSet, base_name="epics") \
+    .register(r"related_userstories", EpicRelatedUserStoryViewSet,
+              base_name="epics-related-userstories",
+              parents_query_lookups=["epic"])
 
 router.register(r"epics/(?P<resource_id>\d+)/voters", EpicVotersViewSet,
                 base_name="epic-voters")
@@ -210,7 +201,6 @@ router.register(r"wiki/(?P<resource_id>\d+)/watchers", WikiWatchersViewSet,
 router.register(r"wiki-links", WikiLinkViewSet,
                 base_name="wiki-links")
 
-
 # History & Components
 from taiga.projects.history.api import EpicHistory
 from taiga.projects.history.api import UserStoryHistory
@@ -226,8 +216,8 @@ router.register(r"history/wiki", WikiHistory, base_name="wiki-history")
 
 # Contact
 from taiga.projects.contact.api import ContactViewSet
-router.register(r"contact", ContactViewSet, base_name="contact")
 
+router.register(r"contact", ContactViewSet, base_name="contact")
 
 # Timelines
 from taiga.timeline.api import ProfileTimeline
@@ -238,7 +228,6 @@ router.register(r"timeline/profile", ProfileTimeline, base_name="profile-timelin
 router.register(r"timeline/user", UserTimeline, base_name="user-timeline")
 router.register(r"timeline/project", ProjectTimeline, base_name="project-timeline")
 
-
 # Webhooks
 from taiga.webhooks.api import WebhookViewSet
 from taiga.webhooks.api import WebhookLogViewSet
@@ -246,37 +235,31 @@ from taiga.webhooks.api import WebhookLogViewSet
 router.register(r"webhooks", WebhookViewSet, base_name="webhooks")
 router.register(r"webhooklogs", WebhookLogViewSet, base_name="webhooklogs")
 
-
 # GitHub webhooks
 from taiga.hooks.github.api import GitHubViewSet
 
 router.register(r"github-hook", GitHubViewSet, base_name="github-hook")
-
 
 # Gitlab webhooks
 from taiga.hooks.gitlab.api import GitLabViewSet
 
 router.register(r"gitlab-hook", GitLabViewSet, base_name="gitlab-hook")
 
-
 # Bitbucket webhooks
 from taiga.hooks.bitbucket.api import BitBucketViewSet
 
 router.register(r"bitbucket-hook", BitBucketViewSet, base_name="bitbucket-hook")
-
 
 # Gogs webhooks
 from taiga.hooks.gogs.api import GogsViewSet
 
 router.register(r"gogs-hook", GogsViewSet, base_name="gogs-hook")
 
-
 # Importer
 from taiga.export_import.api import ProjectImporterViewSet, ProjectExporterViewSet
 
 router.register(r"importer", ProjectImporterViewSet, base_name="importer")
 router.register(r"exporter", ProjectExporterViewSet, base_name="exporter")
-
 
 # External apps
 from taiga.external_apps.api import Application, ApplicationToken
@@ -287,18 +270,22 @@ router.register(r"application-tokens", ApplicationToken, base_name="application-
 # Third party importers
 if settings.IMPORTERS.get('trello', {}).get('active', False):
     from taiga.importers.trello.api import TrelloImporterViewSet
+
     router.register(r"importers/trello", TrelloImporterViewSet, base_name="importers-trello")
 
 if settings.IMPORTERS.get('jira', {}).get('active', False):
     from taiga.importers.jira.api import JiraImporterViewSet
+
     router.register(r"importers/jira", JiraImporterViewSet, base_name="importers-jira")
 
 if settings.IMPORTERS.get('github', {}).get('active', False):
     from taiga.importers.github.api import GithubImporterViewSet
+
     router.register(r"importers/github", GithubImporterViewSet, base_name="importers-github")
 
 if settings.IMPORTERS.get('asana', {}).get('active', False):
     from taiga.importers.asana.api import AsanaImporterViewSet
+
     router.register(r"importers/asana", AsanaImporterViewSet, base_name="importers-asana")
 
 
