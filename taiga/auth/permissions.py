@@ -16,9 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from taiga.base.api.permissions import TaigaResourcePermission, AllowAny
+from taiga.base.api.permissions import TaigaResourcePermission, AllowAny, IsSuperUser
 
 
 class AuthPermission(TaigaResourcePermission):
     create_perms = AllowAny()
-    register_perms = AllowAny()
+    register_perms = IsSuperUser()  # AllowAny()

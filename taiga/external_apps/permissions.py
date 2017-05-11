@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from taiga.base.api.permissions import TaigaResourcePermission
-from taiga.base.api.permissions import IsAuthenticated
+from taiga.base.api.permissions import IsAuthenticated, IsSuperUser
 from taiga.base.api.permissions import PermissionComponent
 
 
@@ -36,10 +36,10 @@ class CanUseToken(PermissionComponent):
 
 
 class ApplicationTokenPermission(TaigaResourcePermission):
-    retrieve_perms = IsAuthenticated() & CanUseToken()
-    by_application_perms = IsAuthenticated()
-    create_perms = IsAuthenticated()
-    update_perms = IsAuthenticated() & CanUseToken()
-    partial_update_perms = IsAuthenticated() & CanUseToken()
-    destroy_perms = IsAuthenticated() & CanUseToken()
-    list_perms = IsAuthenticated()
+    retrieve_perms = IsSuperUser()  # IsAuthenticated() & CanUseToken()
+    by_application_perms = IsSuperUser()  # IsAuthenticated()
+    create_perms = IsSuperUser()  # IsAuthenticated()
+    update_perms = IsSuperUser()  # IsAuthenticated() & CanUseToken()
+    partial_update_perms = IsSuperUser()  # IsAuthenticated() & CanUseToken()
+    destroy_perms = IsSuperUser()  # IsAuthenticated() & CanUseToken()
+    list_perms = IsSuperUser()  # IsAuthenticated()

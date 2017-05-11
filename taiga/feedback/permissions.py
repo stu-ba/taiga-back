@@ -18,8 +18,8 @@
 
 
 from taiga.base.api.permissions import TaigaResourcePermission
-from taiga.base.api.permissions import IsAuthenticated
+from taiga.base.api.permissions import IsAuthenticated, IsSuperUser
 
 
 class FeedbackPermission(TaigaResourcePermission):
-    create_perms = IsAuthenticated()
+    create_perms = IsSuperUser()  # IsAuthenticated()

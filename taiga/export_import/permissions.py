@@ -18,11 +18,11 @@
 
 
 from taiga.base.api.permissions import (TaigaResourcePermission,
-                                        IsProjectAdmin, IsAuthenticated)
+                                        IsProjectAdmin, IsAuthenticated, IsSuperUser)
 
 
 class ImportExportPermission(TaigaResourcePermission):
-    import_project_perms = IsAuthenticated()
-    import_item_perms = IsProjectAdmin()
+    import_project_perms = IsSuperUser()  # IsAuthenticated()
+    import_item_perms = IsSuperUser()  # IsProjectAdmin()
     export_project_perms = IsProjectAdmin()
     load_dump_perms = IsAuthenticated()

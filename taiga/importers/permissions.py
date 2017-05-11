@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from taiga.base.api.permissions import TaigaResourcePermission, IsAuthenticated
+from taiga.base.api.permissions import TaigaResourcePermission, IsAuthenticated, IsSuperUser
 
 
 class ImporterPermission(TaigaResourcePermission):
@@ -26,4 +26,4 @@ class ImporterPermission(TaigaResourcePermission):
     authorize_perms = IsAuthenticated()
     list_users_perms = IsAuthenticated()
     list_projects_perms = IsAuthenticated()
-    import_project_perms = IsAuthenticated()
+    import_project_perms = IsSuperUser()  # IsAuthenticated()
