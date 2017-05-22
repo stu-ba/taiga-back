@@ -35,6 +35,7 @@ class UserPermission(TaigaResourcePermission):
     global_perms = None
     retrieve_perms = AllowAny()
     by_username_perms = retrieve_perms
+    create_perms = IsSuperUser()
     update_perms = IsSuperUser()
     partial_update_perms = IsSuperUser()
     destroy_perms = IsSuperUser()
@@ -51,7 +52,6 @@ class UserPermission(TaigaResourcePermission):
     liked_perms = AllowAny()
     voted_perms = AllowAny()
     watched_perms = AllowAny()
-    create_perms = IsSuperUser()
 
 
 class RolesPermission(TaigaResourcePermission):
