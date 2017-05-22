@@ -966,7 +966,7 @@
     "model": "projects.projecttemplate",
     "pk": 3,
     "fields": {
-      "name": "Master thesis",
+      "name": "Master Thesis",
       "slug": "master-thesis",
       "description": "Template for master theses",
       "order": 1,
@@ -1460,7 +1460,7 @@
     "model": "projects.projecttemplate",
     "pk": 4,
     "fields": {
-      "name": "Empty project",
+      "name": "Empty Project",
       "slug": "empty-project",
       "description": "Empty template, admin of project is responsible for roles",
       "order": 1,
