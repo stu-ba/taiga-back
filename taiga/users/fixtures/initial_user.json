@@ -10,8 +10,8 @@
       "colorize_tags": false,
       "is_superuser": true,
       "email": "ytrium.yap@gmail.com",
-      "max_public_projects": "",
-      "max_memberships_public_projects": ""
+      "max_public_projects": null,
+      "max_memberships_public_projects": null
     }
   },
   {
